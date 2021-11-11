@@ -1,100 +1,124 @@
 package com.mycompany.covidtracker;
 
+// importing important library and classes [ mga need na library ]
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
-import java.awt.event.*;
-import java.awt.Image;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 /**
  *
  * @author Kristine
  */
 public class main {
-
+    
+    //code sa paag gawa ng GUI 
     public static void cFrame(String location, String ac, String cc, String r, String d, String[] cityList, String[] covidCases, String[] totalList) {
 
-        //main frame
-        JFrame frame = new JFrame();
+        //main frame or Main window
+        JFrame frame = new JFrame("Covid Tracker");
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Kristine\\Documents\\NetBeansProjects\\CovidTracker\\src\\main\\java\\com\\mycompany\\covidtracker\\covid 19.png");
+        frame.setIconImage(icon);
         frame.setLayout(null);
         frame.setSize(825, 400);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
+        //header 
         JLabel headerText = new JLabel();
         headerText.setText("<html> <font color=#3355FF size=12> <center> COVID-19 cases in " + location + " </center> </font> <font color=#FFFFFF size=3><br> " + totalList[5] + " </font><html>");
         headerText.setVerticalAlignment(JLabel.TOP);
         headerText.setHorizontalAlignment(JLabel.LEFT);
         headerText.setBounds(25, 30, 900, 900);
 
+        // active cases text
         JLabel activeCases = new JLabel();
         activeCases.setText("<html> <center><font color=#FFFFFF size=6> Active Cases </font> <br> <br> <font color=#FFFFFF size=8 > " + ac + "</center> </font> </center> </html>");
         activeCases.setVerticalAlignment(JLabel.TOP);
         activeCases.setHorizontalAlignment(JLabel.CENTER);
         activeCases.setBounds(25, 100, 900, 900);
 
+        // confirmed cases text
         JLabel confirmedCases = new JLabel();
         confirmedCases.setText("<html> <center> <font color=#FFFFFF size=6> Confirmed Cases </font><br> <br> <font color=#FFFFFF size=8 > " + cc + "</font> </center> </html>");
         confirmedCases.setVerticalAlignment(JLabel.TOP);
         confirmedCases.setHorizontalAlignment(JLabel.CENTER);
 
+        // recovered cases text
         JLabel Recovered = new JLabel();
         Recovered.setText("<html> <center> <font color=#FFFFFF size=6> Recovered </font> <br> <br> <br> <br> <font color=#FFFFFF size=8>  " + r + "  </font> </center></html>");
         Recovered.setVerticalAlignment(JLabel.TOP);
         Recovered.setHorizontalAlignment(JLabel.CENTER);
 
+        // deaths cases text
         JLabel Deaths = new JLabel();
         Deaths.setText("<html> <center> <font color=#FFFFFF size=6> Deaths </font> <br> <br> <br> <br> <font color=#FFFFFF size=8> " + d + "  </font></center> </html>");
         Deaths.setVerticalAlignment(JLabel.TOP);
         Deaths.setHorizontalAlignment(JLabel.CENTER);
 
-        //custom color
+        //custom color for text and panel background
         Color matteRed = new Color(198, 0, 0);
         Color matteBrown = new Color(128, 0, 0);
         Color matteGreen = new Color(24, 136, 15);
         Color matteBLue = new Color(16, 101, 125);
+        Color matteYellow = new Color(255, 0, 0);
+        Color darkGreen = new Color(42, 94, 80);
 
-        //panel for active cases
+        //panel box for active cases 
         JPanel activeCasesPanel = new JPanel();
         activeCasesPanel.setBackground(matteRed);
         activeCasesPanel.setBounds(25, 150, 150, 150);
         activeCasesPanel.setLayout(new BorderLayout());
         activeCasesPanel.add(activeCases);
 
-        //panel for confirmed cases
+        //panel box for confirmed cases 
         JPanel confirmedCasesPanel = new JPanel();
         confirmedCasesPanel.setBackground(matteBrown);
         confirmedCasesPanel.setBounds(225, 150, 150, 150);
         confirmedCasesPanel.setLayout(new BorderLayout());
         confirmedCasesPanel.add(confirmedCases);
 
-        //panel for death
+        //panel box for recovered cases
         JPanel recoveredPanel = new JPanel();
         recoveredPanel.setBackground(matteGreen);
         recoveredPanel.setBounds(425, 150, 150, 150);
         recoveredPanel.setLayout(new BorderLayout());
         recoveredPanel.add(Recovered);
 
-        //panel for death
+        //panel box for deaths
         JPanel deathPanel = new JPanel();
         deathPanel.setBackground(matteBLue);
         deathPanel.setBounds(625, 150, 150, 150);
         deathPanel.setLayout(new BorderLayout());
         deathPanel.add(Deaths);
 
-        //add a button
+        //learn more button
+        JButton btn3 = new JButton("Learn more");
+        btn3.setBackground(matteGreen);
+        btn3.setForeground(Color.WHITE);
+        btn3.setOpaque(true);
+        btn3.setBounds(25, 330, 130, 30);
+
+        //choose city button
         JButton btn2 = new JButton("Choose city");
+        btn2.setBackground(matteYellow);
+        btn2.setForeground(Color.WHITE);
+        btn2.setOpaque(true);
         btn2.setBounds(540, 330, 130, 30);
 
+        // exit button
         JButton btn1 = new JButton("Exit");
+        btn1.setBackground(darkGreen);
+        btn1.setForeground(Color.WHITE);
+        btn1.setOpaque(true);
         btn1.setBounds(680, 330, 100, 30);
 
         //background iamge
@@ -106,18 +130,67 @@ public class main {
         back.setLayout(null);
         back.setBounds(0, 0, 825, 400);
 
-        //add an action listener to the button
+        //code will run if button 3 [ learn more ] push
+        btn3.addActionListener((ActionEvent e) -> {
+            JFrame f = new JFrame();
+            f.setIconImage(icon);
+            f.setLayout(null);
+            f.setSize(400, 400);
+            f.setLocationRelativeTo(null);
+            f.setResizable(false);
+
+            JEditorPane jep = new JEditorPane("text/html",
+                    "<html><font color=#000000 size=3>Official Links:<br><br>"
+                    + " Department of Health (DOH) <br> <a href='1'>https://doh.gov.ph/</a> <br><br>"
+                    + " Licensed Covid-19 Testing Laboratories in the Philippines <br> <a href='2'>https://doh.gov.ph/licensed-covid-19-testing-laboratories</a><br><br>"
+                    + " DOH vetted 3rd Party Telemedicine Service Providers<br> <a href='3'>https://doh.gov.ph/List-of-DOH-vetted-3rd-Party-Telemedicine-Service-Providers</a><br><br>"
+                    + " World Health Organization Covid prevention and Systoms <br> <a href='4'>https://www.who.int/health-topics/coronavirus#tab=tab_1</a><br><br>"
+                    + "</font></html>");
+
+            jep.setEditable(false);
+            jep.setOpaque(false);
+            jep.setBounds(0, 0, 400, 400);
+            jep.addHyperlinkListener(new HyperlinkListener() {
+                public void hyperlinkUpdate(HyperlinkEvent hle) {
+                    if (HyperlinkEvent.EventType.ACTIVATED.equals(hle.getEventType())) {
+                        switch (hle.getDescription()) {
+                            case "1":
+                                System.out.println("PDF");
+                                break;
+                            case "2":
+                                System.out.println("PDF1");
+                                break;
+                            case "3":
+                                System.out.println("PDF2");
+                                break;
+                            case "4":
+                                System.out.println("PDF3");
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
+                }
+            });
+            f.add(jep);
+            f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            f.setVisible(true);
+        });
+
+        //code will run if button 1 [ Exit ] push
         btn1.addActionListener((ActionEvent e) -> {
             frame.dispose();
         });
 
+        //code will run if button 2 [ Choose city ] push
         btn2.addActionListener((ActionEvent e) -> {
 
             frame.dispose();
 
             //Select City GUI
             Object selectedCity = JOptionPane.showInputDialog(null,
-                    "Choose City:",
+                    "Cumulative COVID-19 cases in Metro Manila \n\nChoose City:",
                     "COVID-19 CASES UPDATE",
                     JOptionPane.QUESTION_MESSAGE,
                     null,
@@ -125,7 +198,6 @@ public class main {
                     "Valenzuela"
             );
 
-            //find index slected city
             int covidCasesIndex = Arrays.asList(covidCases).indexOf(selectedCity);
 
             cFrame(covidCases[covidCasesIndex].toUpperCase(),
@@ -139,6 +211,7 @@ public class main {
             );
         });
 
+        //putting all button and panels in main frame
         frame.add(headerText);
         frame.add(activeCasesPanel);
         frame.add(confirmedCasesPanel);
@@ -146,34 +219,34 @@ public class main {
         frame.add(deathPanel);
         frame.add(btn1);
         frame.add(btn2);
+        frame.add(btn3);
         frame.add(back);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
+    
+    //main method parang index.html
     public static void main(String[] args) throws IOException {
 
+        //covidCases array variable
         String[] covidCases = {};
         ArrayList<String> covidCasesArrayList = new ArrayList<>(Arrays.asList(covidCases));
 
+        //citylist array variable
         String[] cityList = {};
         ArrayList<String> cityArrayList = new ArrayList<>(Arrays.asList(cityList));
 
+        //total cases array variable
         String[] totalList = {};
         ArrayList<String> totalArrayList = new ArrayList<>(Arrays.asList(totalList));
 
-        try {
-//            Document doc1 = Jsoup.connect("https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Metro_Manila?oldformat=true").get();
+        //get data from wikipedia
+        Document doc1 = Jsoup.connect("https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Metro_Manila?oldformat=true").get();
 
-        } catch (Exception e) {
-        }
+        Elements body = doc1.select("table.wikitable.sortable");
 
-        String html = "<table class=\"wikitable sortable plainrowheaders floatright\" style=\"text-align:left; font-size:90%; width:auto; clear:right; margin:0 0 0.5em 1em;\"> <caption> Cumulative COVID-19 cases in Metro Manila<sup id=\"cite_ref-COVID-19_tracker_5-1\" class=\"reference\"><a href=\"#cite_note-COVID-19_tracker-5\">[4]</a></sup> <br><span style=\"font-size:85%;\">based on numbers confirmed and validated by the LGU<br>Updated November 1, 2021</span> </caption> <tbody> <tr> <th><abbr title=\"Local government unit\">LGU</abbr> </th> <th><abbr title=\"Confirmed cases\">Cases</abbr> </th> <th>Deaths </th> <th><abbr title=\"Recoveries\">Recov.</abbr> </th> <th><abbr title=\"Active cases\">Active</abbr> </th> </tr> <tr> <td><a href=\"/wiki/Caloocan\" title=\"Caloocan\">Caloocan</a> </td> <td style=\"text-align:right;\">60,744 </td> <td style=\"text-align:right;\">1,558 </td> <td style=\"text-align:right;\">58,696 </td> <td style=\"text-align:right;\">490 </td> </tr> <tr> <td><a href=\"/wiki/Las_Pi%C3%B1as\" title=\"Las Piñas\">Las Piñas</a> </td> <td style=\"text-align:right;\">25,260 </td> <td style=\"text-align:right;\">557 </td> <td style=\"text-align:right;\">24,564 </td> <td style=\"text-align:right;\">139 </td> </tr> <tr> <td><a href=\"/wiki/Makati\" title=\"Makati\">Makati</a> </td> <td style=\"text-align:right;\">44,746 </td> <td style=\"text-align:right;\">962 </td> <td style=\"text-align:right;\">43,462 </td> <td style=\"text-align:right;\">322 </td> </tr> <tr> <td><a href=\"/wiki/Malabon\" title=\"Malabon\">Malabon</a> </td> <td style=\"text-align:right;\">21,148 </td> <td style=\"text-align:right;\">640 </td> <td style=\"text-align:right;\">20,420 </td> <td style=\"text-align:right;\">88 </td> </tr> <tr> <td><a href=\"/wiki/Mandaluyong\" title=\"Mandaluyong\">Mandaluyong</a> </td> <td style=\"text-align:right;\">26,364 </td> <td style=\"text-align:right;\">557 </td> <td style=\"text-align:right;\">25,530 </td> <td style=\"text-align:right;\">277 </td> </tr> <tr> <td><a href=\"/wiki/Manila\" title=\"Manila\">Manila</a> </td> <td style=\"text-align:right;\">89,477 </td> <td style=\"text-align:right;\">1,685 </td> <td style=\"text-align:right;\">87,340 </td> <td style=\"text-align:right;\">452 </td> </tr> <tr> <td><a href=\"/wiki/Marikina\" title=\"Marikina\">Marikina</a> </td> <td style=\"text-align:right;\">25,522 </td> <td style=\"text-align:right;\">624 </td> <td style=\"text-align:right;\">24,572 </td> <td style=\"text-align:right;\">326 </td> </tr> <tr> <td><a href=\"/wiki/Muntinlupa\" title=\"Muntinlupa\">Muntinlupa</a> </td> <td style=\"text-align:right;\">27,381 </td> <td style=\"text-align:right;\">572 </td> <td style=\"text-align:right;\">26,629 </td> <td style=\"text-align:right;\">180 </td> </tr> <tr> <td><a href=\"/wiki/Navotas\" title=\"Navotas\">Navotas</a> </td> <td style=\"text-align:right;\">17,574 </td> <td style=\"text-align:right;\">542 </td> <td style=\"text-align:right;\">16,989 </td> <td style=\"text-align:right;\">43 </td> </tr> <tr> <td><a href=\"/wiki/Para%C3%B1aque\" title=\"Parañaque\">Parañaque</a> </td> <td style=\"text-align:right;\">37,278 </td> <td style=\"text-align:right;\">732 </td> <td style=\"text-align:right;\">37,287 </td> <td style=\"text-align:right;\">259 </td> </tr> <tr> <td><a href=\"/wiki/Pasay\" title=\"Pasay\">Pasay</a> </td> <td style=\"text-align:right;\">21,873 </td> <td style=\"text-align:right;\">544 </td> <td style=\"text-align:right;\">21,227 </td> <td style=\"text-align:right;\">102 </td> </tr> <tr> <td><a href=\"/wiki/Pasig\" title=\"Pasig\">Pasig</a> </td> <td style=\"text-align:right;\">58,657 </td> <td style=\"text-align:right;\">1,422 </td> <td style=\"text-align:right;\">57,015 </td> <td style=\"text-align:right;\">220 </td> </tr> <tr> <td><a href=\"/wiki/Pateros\" title=\"Pateros\">Pateros</a> </td> <td style=\"text-align:right;\">7,668 </td> <td style=\"text-align:right;\">95 </td> <td style=\"text-align:right;\">7,420 </td> <td style=\"text-align:right;\">148 </td> </tr> <tr> <td><a href=\"/wiki/Quezon_City\" title=\"Quezon City\">Quezon City</a> </td> <td style=\"text-align:right;\">176,976 </td> <td style=\"text-align:right;\">1,521 </td> <td style=\"text-align:right;\">172,930 </td> <td style=\"text-align:right;\">2,525 </td> </tr> <tr> <td><a href=\"/wiki/San_Juan,_Metro_Manila\" title=\"San Juan, Metro Manila\">San Juan</a> </td> <td style=\"text-align:right;\">14,997 </td> <td style=\"text-align:right;\">315 </td> <td style=\"text-align:right;\">14,542 </td> <td style=\"text-align:right;\">140 </td> </tr> <tr> <td><a href=\"/wiki/Taguig\" title=\"Taguig\">Taguig</a> </td> <td style=\"text-align:right;\">51,017 </td> <td style=\"text-align:right;\">401 </td> <td style=\"text-align:right;\">50,198 </td> <td style=\"text-align:right;\">418 </td> </tr> <tr> <td><a href=\"/wiki/Valenzuela,_Metro_Manila\" title=\"Valenzuela, Metro Manila\">Valenzuela</a> </td> <td style=\"text-align:right;\">35,376 </td> <td style=\"text-align:right;\">819 </td> <td style=\"text-align:right;\">34,237 </td> <td style=\"text-align:right;\">320 </td> </tr> <tr class=\"sortbottom\"> <th style=\"text-align:left;\">Total </th> <th style=\"text-align:right;\"><img alt=\"Negative increase\" src=\"//upload.wikimedia.org/wikipedia/commons/thumb/5/59/Increase_Negative.svg/11px-Increase_Negative.svg.png\" decoding=\"async\" title=\"Negative increase\" width=\"11\" height=\"11\" srcset=\"//upload.wikimedia.org/wikipedia/commons/thumb/5/59/Increase_Negative.svg/17px-Increase_Negative.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/5/59/Increase_Negative.svg/22px-Increase_Negative.svg.png 2x\" data-file-width=\"300\" data-file-height=\"300\"> 742,058 </th> <th style=\"text-align:right;\"><img alt=\"Negative increase\" src=\"//upload.wikimedia.org/wikipedia/commons/thumb/5/59/Increase_Negative.svg/11px-Increase_Negative.svg.png\" decoding=\"async\" title=\"Negative increase\" width=\"11\" height=\"11\" srcset=\"//upload.wikimedia.org/wikipedia/commons/thumb/5/59/Increase_Negative.svg/17px-Increase_Negative.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/5/59/Increase_Negative.svg/22px-Increase_Negative.svg.png 2x\" data-file-width=\"300\" data-file-height=\"300\"> 13,546 </th> <th style=\"text-align:right;\"><img alt=\"Increase\" src=\"//upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Increase2.svg/11px-Increase2.svg.png\" decoding=\"async\" title=\"Increase\" width=\"11\" height=\"11\" srcset=\"//upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Increase2.svg/17px-Increase2.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Increase2.svg/22px-Increase2.svg.png 2x\" data-file-width=\"300\" data-file-height=\"300\"> 723,058 </th> <th style=\"text-align:right;\"><img alt=\"Positive decrease\" src=\"//upload.wikimedia.org/wikipedia/commons/thumb/9/92/Decrease_Positive.svg/11px-Decrease_Positive.svg.png\" decoding=\"async\" title=\"Positive decrease\" width=\"11\" height=\"11\" srcset=\"//upload.wikimedia.org/wikipedia/commons/thumb/9/92/Decrease_Positive.svg/17px-Decrease_Positive.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/9/92/Decrease_Positive.svg/22px-Decrease_Positive.svg.png 2x\" data-file-width=\"300\" data-file-height=\"300\"> 6,449 </th> </tr> </tbody></table>";
-        Document doc2 = Jsoup.parse(html);
-
-        Elements body = doc2.select("table.wikitable.sortable");
-
+        // get covid cases by city a
         for (Element e : body.select("tr")) {
 
             String LGU = e.select("td:nth-of-type(1)").text();//Local Goverment Unit
@@ -194,6 +267,7 @@ public class main {
 
         }
 
+        // get total covid cases in metro manila
         Elements footer = body.select("tr.sortbottom");
 
         String total = footer.select("th:nth-of-type(1)").text();
@@ -216,18 +290,19 @@ public class main {
 
         //cities arraylist to array
         cityList = cityArrayList.toArray(cityList);
-
         //cities arraylist to array
         covidCases = covidCasesArrayList.toArray(covidCases);
+        //totalCases arraylist to array        
 
-        //totalCases arraylist to array
         totalList = totalArrayList.toArray(totalList);
+        System.out.println(totalArrayList);
 
+        //calling gui code [ fFrame ]
         cFrame("Metro Manila",
-                totalList[1],
-                totalList[2],
-                totalList[3],
                 totalList[4],
+                totalList[1],
+                totalList[3],
+                totalList[2],
                 cityList,
                 covidCases,
                 totalList

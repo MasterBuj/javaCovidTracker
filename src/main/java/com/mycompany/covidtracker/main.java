@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -19,7 +21,7 @@ import javax.swing.event.HyperlinkListener;
  * @author Kristine
  */
 public class main {
-    
+
     //code sa paag gawa ng GUI 
     public static void cFrame(String location, String ac, String cc, String r, String d, String[] cityList, String[] covidCases, String[] totalList) {
 
@@ -140,7 +142,7 @@ public class main {
             f.setResizable(false);
 
             JEditorPane jep = new JEditorPane("text/html",
-                    "<html><font color=#000000 size=3>Official Links:<br><br>"
+                    "<html><font color=#000000 size=4><br>Official Links:<br><br>"
                     + " Department of Health (DOH) <br> <a href='1'>https://doh.gov.ph/</a> <br><br>"
                     + " Licensed Covid-19 Testing Laboratories in the Philippines <br> <a href='2'>https://doh.gov.ph/licensed-covid-19-testing-laboratories</a><br><br>"
                     + " DOH vetted 3rd Party Telemedicine Service Providers<br> <a href='3'>https://doh.gov.ph/List-of-DOH-vetted-3rd-Party-Telemedicine-Service-Providers</a><br><br>"
@@ -155,16 +157,33 @@ public class main {
                     if (HyperlinkEvent.EventType.ACTIVATED.equals(hle.getEventType())) {
                         switch (hle.getDescription()) {
                             case "1":
-                                System.out.println("PDF");
-                                break;
+                                        try {
+                                Desktop.getDesktop().browse(new URI("https://doh.gov.ph/"));
+                            } catch (IOException | URISyntaxException e) {
+                                System.out.println("Failed (" + e.getMessage() + ")");
+                            }
+                            break;
+                            
                             case "2":
-                                System.out.println("PDF1");
+                                try {
+                                Desktop.getDesktop().browse(new URI("https://doh.gov.ph/licensed-covid-19-testing-laboratories"));
+                            } catch (IOException | URISyntaxException e) {
+                                System.out.println("Failed (" + e.getMessage() + ")");
+                            }
                                 break;
                             case "3":
-                                System.out.println("PDF2");
+                                try {
+                                Desktop.getDesktop().browse(new URI("https://doh.gov.ph/List-of-DOH-vetted-3rd-Party-Telemedicine-Service-Providers"));
+                            } catch (IOException | URISyntaxException e) {
+                                System.out.println("Failed (" + e.getMessage() + ")");
+                            }
                                 break;
                             case "4":
-                                System.out.println("PDF3");
+                                try {
+                                Desktop.getDesktop().browse(new URI("https://www.who.int/health-topics/coronavirus#tab=tab_1"));
+                            } catch (IOException | URISyntaxException e) {
+                                System.out.println("Failed (" + e.getMessage() + ")");
+                            }
                                 break;
                             default:
                                 break;
@@ -225,7 +244,6 @@ public class main {
         frame.setVisible(true);
     }
 
-    
     //main method parang index.html
     public static void main(String[] args) throws IOException {
 
@@ -295,7 +313,6 @@ public class main {
         //totalCases arraylist to array        
 
         totalList = totalArrayList.toArray(totalList);
-        System.out.println(totalArrayList);
 
         //calling gui code [ fFrame ]
         cFrame("Metro Manila",
